@@ -1,6 +1,8 @@
 //#include "SDL_timer.h"
 #include <time.h>
+#include <iostream>
 #include "GameLoop.h"
+#include "Vector.h"
 
 void BULLET(int &bullet)
 {
@@ -17,6 +19,9 @@ int B = 255;
 int density = 150;
 int bullet = 1610;
 int by = 450;
+int count = 0;
+int seconds = 0;
+int minutes = 0;
 
 void GameLoop::Loop()
 {
@@ -26,37 +31,6 @@ void GameLoop::Loop()
 
 		while (m_bRunning)
 		{
-
-			/*for (int i = 0; i < 2; i++)
-			{
-				if (bullet = -10)
-				{
-					bullet = 1610;
-					break;
-				}
-				else if (true)
-				{
-
-				}
-				else if (bullet < 1610)
-				{
-					BULLET(bullet);
-					Update();
-
-					LateUpdate();
-
-					Draw();
-					
-					Graphics::Flip();
-					SDL_Delay(100000);
-					i = 0;
-				}
-				else
-				{
-					break;
-				}
-			}*/
-
 			// Events get called one at a time, so if multiple things happen in one frame, they get parsed individually through 'SDL_PollEvent'
 			// The next event to parse gets stored into 'sdlEvent', and then passed to the 'EventHandler' class which will call it's appropriate function here
 			// 'SDL_PollEvent' returns 0 when there are no more events to parse
@@ -74,7 +48,29 @@ void GameLoop::Loop()
 				if (bullet < 1610 && bullet > -10) { BULLET(bullet); }
 				else { bullet = 1610; }
 			}
-
+			if (count == 60)
+			{
+				if (seconds == 59)
+				{
+					minutes++;
+					seconds = 0;
+					std::cout << minutes << ":0" << seconds << std::endl;
+					
+				}
+				if (seconds < 9)
+				{
+					seconds++;
+					std::cout << minutes << ":0" << seconds << std::endl;
+					count = 0;
+				}
+				else
+				{
+					seconds++;
+					std::cout << minutes << ":" << seconds << std::endl;
+					count = 0;
+				}
+			}
+			count++;
 			LateUpdate();
 
 			Draw();
@@ -98,13 +94,17 @@ void GameLoop::Draw()
 	// Objects are drawn in a painter's layer fashion meaning the first object drawn is on the bottom, and the last one drawn is on the top
 	// just like a painter would paint onto a canvas
 	
-	Graphics::DrawRect({ 412, 400 }, { 450, 400 }, { 160, 65, 255, 255 });
+	Graphics::DrawRect({ 410, 400 }, { 400, 400 }, { 160, 65, 255, 255 });
 	Graphics::DrawRect({ 250, 500 }, { 1000, 200 }, { 0, 255, 0, 255 });
-
-	Graphics::DrawLine({ 10, 10 }, { 100, 100 }, { 255, 255, 255, 255 });
+	Vector<float> Vec1 = { 300, 0, 0 };
+	Vector<float> Vec2 = { 0, 400, 0 };
+	Vector<float> Vec3 = Vec1 + Vec2;
+	Graphics::DrawLine({ 10, 10 }, { 10, Vec2.y }, { 255, 255, 255, 255 });
+	Graphics::DrawLine({ 10, 10 }, { Vec1.x, 10 }, { 255, 255, 255, 255 });
+	Graphics::DrawLine({ Vec3.x, 10 }, { 10, Vec3.y }, { 255, 255, 255, 255 });
 	Graphics::DrawPoint({ 5, 5 }, { 255, 255, 255, 255 });
 
-	Graphics::DrawRing({ 140, 140 }, 50, 25, { 50, 0, 200, 255 });
+	Graphics::DrawRing({ 10, 10 }, 50, 25, { 50, 0, 200, 255 });
 	Graphics::DrawCircle({ x, y }, size, sides, { R, G, B, density });
 
 	Graphics::DrawCircle({ bullet, by }, 10, 500, { 200,200,200,255 });

@@ -1,12 +1,11 @@
-//#include "SDL_timer.h"
 #include <time.h>
 #include <iostream>
 #include "GameLoop.h"
 #include "Vector.h"
 
-void BULLET(int &bullet)
+void BULLET(int &bullet, int deltaTime)
 {
-	bullet -= 10;
+	bullet -= 10 * deltaTime;
 }
 
 int x = 800;
@@ -19,9 +18,13 @@ int B = 255;
 int density = 150;
 int bullet = 1610;
 int by = 450;
-int count = 0;
+//int count = 0;
 int seconds = 0;
 int minutes = 0;
+int fps = 0;
+float currentTime = clock();
+float previousTime = currentTime;
+int deltaTime = 0;
 
 void GameLoop::Loop()
 {
@@ -41,39 +44,53 @@ void GameLoop::Loop()
 				// and its syntax
 				OnEvent(sdlEvent);
 			}
+			currentTime = clock();
+			deltaTime = (currentTime - previousTime) / 10;
+			std::cout << deltaTime << std::endl;
 			Update();
-
 			if (!((bullet - 10 <= x + size && bullet >= x - size) && (by <= y + size && by >= y - size)))
 			{
-				if (bullet < 1610 && bullet > -10) { BULLET(bullet); }
+				if (bullet < 1610 && bullet > -10) { BULLET(bullet, deltaTime); }
 				else { bullet = 1610; }
 			}
-			if (count == 60)
-			{
-				if (seconds == 59)
-				{
-					minutes++;
-					seconds = 0;
-					std::cout << minutes << ":0" << seconds << std::endl;
-					
-				}
-				if (seconds < 9)
-				{
-					seconds++;
-					std::cout << minutes << ":0" << seconds << std::endl;
-					count = 0;
-				}
-				else
-				{
-					seconds++;
-					std::cout << minutes << ":" << seconds << std::endl;
-					count = 0;
-				}
-			}
-			count++;
+			//int count = fps / 60;
+			//if (true)
+			//{
+			//	std::cout << count << std::endl;
+
+			//}
+			//fps++;
+			
+			//std::cout << currentTime << std::endl;
+			//if (count == 60)
+			//{
+			//	if (seconds == 59)
+			//	{
+			//		minutes++;
+			//		seconds = 0;
+			//		std::cout << minutes << ":0" << seconds << std::endl;
+			//		count = 0;
+			//		
+			//	}
+			//	else if (seconds < 9)
+			//	{
+			//		seconds++;
+			//		std::cout << minutes << ":0" << seconds << std::endl;
+			//		count = 0;
+			//	}
+			//	else
+			//	{
+			//		seconds++;
+			//		std::cout << minutes << ":" << seconds << std::endl;
+			//		count = 0;
+			//	}
+			//}
+			//count++;
 			LateUpdate();
 
 			Draw();
+
+			previousTime = currentTime;
 
 			Graphics::Flip(); // Required to update the window with all the newly drawn content
 		}
@@ -94,7 +111,7 @@ void GameLoop::Draw()
 	// Objects are drawn in a painter's layer fashion meaning the first object drawn is on the bottom, and the last one drawn is on the top
 	// just like a painter would paint onto a canvas
 	
-	Graphics::DrawRect({ 410, 400 }, { 400, 400 }, { 160, 65, 255, 255 });
+	Graphics::DrawRect({ 410, 450 }, { 400, 400 }, { 160, 65, 255, 255 });
 	Graphics::DrawRect({ 250, 500 }, { 1000, 200 }, { 0, 255, 0, 255 });
 	Vector<float> Vec1 = { 300, 0, 0 };
 	Vector<float> Vec2 = { 0, 400, 0 };
@@ -115,7 +132,7 @@ void GameLoop::OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, con
 	printf("%s\n", SDL_GetKeyName(ac_sdlSym));
 	switch (ac_sdlSym)
 	{
-	case SDLK_b:if (!((bullet - 10 <= x + size && bullet >= x - size) && (by <= y + size && by >= y - size))) { BULLET(bullet);  break; } else { break; }
+	case SDLK_b:if (!((bullet - 10 <= x + size && bullet >= x - size) && (by <= y + size && by >= y - size))) { BULLET(bullet, deltaTime);  break; } else { break; }
 	case SDLK_w: y -= 10; break;
 	case SDLK_s: y += 10; break;
 	case SDLK_d: x += 10; break;

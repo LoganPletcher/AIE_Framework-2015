@@ -74,12 +74,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\logan.pletcher\Documents\GitHub\AIE_Framework-2015\MathLibFolder;$(ProjectDir)\Dependencies\include\SDL;$(ProjectDir)\Dependencies\include\OpenGL;$(ProjectDir)\Dependencies\include\Graphics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Dependencies\include\SDL;$(ProjectDir)\Dependencies\include\OpenGL;$(ProjectDir)\Dependencies\include\Graphics;$(ProjectDir)\Dependencies\include\Math</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\logan.pletcher\Documents\GitHub\AIE_Framework-2015\MathLibFolder;$(ProjectDir)\Dependencies\lib;$(ProjectDir)\Dependencies\lib\SDL;$(ProjectDir)\Dependencies\lib\OpenGL;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL-OpenGL Student Library.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Dependencies\lib;$(ProjectDir)\Dependencies\lib\SDL;$(ProjectDir)\Dependencies\lib\OpenGL;$(ProjectDir)\Dependencies\lib\MathLib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL-OpenGL Student Library.lib;Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -102,14 +102,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Dependencies\include\SDL;$(ProjectDir)\Dependencies\include\OpenGL;$(ProjectDir)\Dependencies\include\Graphics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Dependencies\include\SDL;$(ProjectDir)\Dependencies\include\OpenGL;$(ProjectDir)\Dependencies\include\Graphics;$(ProjectDir)\Dependencies\include\Math</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)\Dependencies\lib;$(ProjectDir)\Dependencies\lib\SDL;$(ProjectDir)\Dependencies\lib\OpenGL;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL-OpenGL Student Library.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Dependencies\lib;$(ProjectDir)\Dependencies\lib\SDL;$(ProjectDir)\Dependencies\lib\OpenGL;$(ProjectDir)\Dependencies\lib\MathLib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL-OpenGL Student Library.lib;Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

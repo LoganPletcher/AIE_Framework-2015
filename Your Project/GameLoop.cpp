@@ -3,15 +3,35 @@
 #include "GameLoop.h"
 #include "Vector.h"
 
-int x = 450;
-int y = 100;
+void BULLET(int &bullet, int deltaTime, int movement)
+{
+	bullet -= movement * deltaTime;
+}
+
+float x = 50;
+float y = 100;
 int size = 50;
 int sides = 50;
 int R = 255;
 int G = 255;
 int B = 0;
 int density = 255;
-
+float currentTime = clock();
+float previousTime = currentTime;
+int deltaTime = 0;
+int bullet = 1610;
+int by = 500;
+float a = 1550;
+float b = 100;
+bool p1W = false;
+bool p1S = false;
+//bool p1D = false;
+//bool p1A = false;
+bool p2UP = false;
+bool p2DOWN = false;
+//bool p2RIGHT = false;
+//bool p2LEFT = false;
+int movement = 10;
 
 void GameLoop::Loop()
 {
@@ -31,7 +51,42 @@ void GameLoop::Loop()
 				// and its syntax
 				OnEvent(sdlEvent);
 			}
+			currentTime = clock();
+			deltaTime = (currentTime - previousTime) / 10;
+			std::cout << deltaTime << std::endl;
+
+			previousTime = currentTime;
+
+			if (((bullet == x - 20) && (by >= y && by <= y + 90)))
+			{
+				movement = -10;
+				
+			}
+
+			if ((bullet < 1610 && bullet > -10))
+			{
+				BULLET(bullet, deltaTime, movement);
 			
+			}
+			
+			else { bullet = 800; }
+
+			if (p1W) { if (y > 0) { y -= 10; } }
+
+			if (p1S) { if (y < 900) { y += 10; } }
+
+			//if (p1D) { if (x < 1150) { x += 50; } }
+
+			//if (p1A) { if (x > 450) { x -= 50; } }
+
+			if (p2UP) { if (b > 0) { b -= 10; } }
+			
+			if (p2DOWN) { if (b < 900) { b += 10; }}
+
+			//if (p2RIGHT) { if (a < 1150) { a += 50; } }
+
+			//if (p2LEFT) { if (a > 450) { a -= 50; } }
+
 			Update();
 
 			LateUpdate();
@@ -59,7 +114,11 @@ void GameLoop::Draw()
 		Graphics::DrawLine({ 400 , 50 + (100 * i) }, { 1200, 50 + (100 * i) }, { 255, 255, 255, 255 });
 		Graphics::DrawLine({ 400 + (100 * i), 50 }, { 400 + (100 * i), 850 }, { 255, 255, 255, 255 });
 	}
-	Graphics::DrawCircle({ x, y }, size, sides, { R, G, B, density });
+	//Graphics::DrawCircle({ x, y }, size, sides, { R, G, B, density });
+	Graphics::DrawRect({ 10, y }, { 10, 100 }, { 150, 200, 255, 255 });
+	//Graphics::DrawCircle({ a, b }, size, sides, { R, G, B, density });
+	Graphics::DrawRect({ 1580, b }, { 10, 100 }, { 150, 200, 255, 255 });
+	Graphics::DrawCircle({ bullet, by }, 10, 500, { 200,200,200,255 });
 	//Vector<float> Vec1 = { 300, 0, 0 };
 	//Vector<float> Vec2 = { 0, 400, 0 };
 	//Vector<float> Vec3 = Vec1 + Vec2;
@@ -73,17 +132,22 @@ void GameLoop::OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, con
 	printf("%s\n", SDL_GetKeyName(ac_sdlSym));
 	switch (ac_sdlSym)
 	{
-	case SDLK_w: if (y > 100) { y -= 100; break; } else { break; }
-	case SDLK_s: if (y < 800) { y += 100; break; } else { break; }
-	case SDLK_d: if (x < 1150) { x += 100; break; } else { break; }
-	case SDLK_a: if (x > 450) { x -= 100; break; } else { break; }
+	case SDLK_b: if (!((bullet - 10 <= x + size && bullet >= x - size) && (by <= y + size && by >= y - size))) { BULLET(bullet, deltaTime, movement);  break; } else { break; }
+	case SDLK_w: p1W = true; /*if (y > 100) { y -= 100; break; } else { break; }*/ break;
+	case SDLK_s: p1S = true; /*if (y < 800) { y += 100; break; } else { break; }*/ break;
+	//case SDLK_d: p1D = true; /*if (x < 1150) { x += 100; break; } else { break; }*/ break;
+	//case SDLK_a: p1A = true; /*if (x > 450) { x -= 100; break; } else { break; }*/ break;
 	case SDLK_y: if (R < 255) { R += 5; break; } else { break; }
 	case SDLK_h: if (R > 0) { R -= 5;  break; } else { break; }
 	case SDLK_u: if (G < 255) { G += 5; break; } else { break; }
 	case SDLK_j: if (G > 0) { G -= 5;  break; } else { break; }
 	case SDLK_i: if (B < 255) { B += 5; break; } else { break; }
 	case SDLK_k: if (B > 0) { B -= 5; break; } else { break; }
-	case SDLK_ESCAPE: m_bRunning = false; break; // End the loop
+	case SDLK_UP: p2UP = true; /*if (b > 100) { b -= 100; break; } else { break; }*/ break;
+	case SDLK_DOWN: p2DOWN = true; /*if (b < 800) { b += 100; break; } else { break; }*/ break;
+	//case SDLK_RIGHT: p2RIGHT = true; /*if (a < 1150) { a += 100; break; } else { break; }*/ break;
+	//case SDLK_LEFT: p2LEFT = true; /*if (a > 450) { a -= 100; break; } else { break; }*/ break;
+	case SDLK_ESCAPE: m_bRunning = false; break;
 
 	default: printf("%s\n",SDL_GetKeyName(ac_sdlSym)); break;
 	}
@@ -92,7 +156,14 @@ void GameLoop::OnKeyUp(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const
 {
 	switch (ac_sdlSym)
 	{
-
+	case SDLK_w: p1W = false; break;
+	case SDLK_s: p1S = false; break;
+	//case SDLK_d: p1D = false; break;
+	//case SDLK_a: p1A = false; break;
+	case SDLK_UP: p2UP = false; break;
+	case SDLK_DOWN: p2DOWN = false; break;
+	//case SDLK_RIGHT: p2RIGHT = false; break;
+	//case SDLK_LEFT: p2LEFT = false; break;
 	default: break;
 	}
 }

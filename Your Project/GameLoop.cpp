@@ -9,7 +9,7 @@ void BULLET(int &bullet, int deltaTime, int movement)
 }
 
 float x = 50;
-float y = 100;
+float y = 450;
 int size = 50;
 int sides = 50;
 int R = 255;
@@ -22,7 +22,7 @@ int deltaTime = 0;
 int bullet = 1610;
 int by = 500;
 float a = 1550;
-float b = 100;
+float b = 450;
 bool p1W = false;
 bool p1S = false;
 //bool p1D = false;
@@ -32,8 +32,8 @@ bool p2DOWN = false;
 //bool p2RIGHT = false;
 //bool p2LEFT = false;
 int movement = 10;
-int p1Score = 0;
-int p2Score = 0;
+int p1Score = -1;
+int p2Score = -1;
 bool down = false;
 bool up = false;
 
@@ -56,28 +56,29 @@ void GameLoop::Loop()
 				OnEvent(sdlEvent);
 			}
 			currentTime = clock();
-			deltaTime = (currentTime - previousTime) / 10;
-			std::cout << deltaTime << std::endl;
+			deltaTime = (currentTime - previousTime) / 10;	//creates Delta time
+			std::cout << deltaTime << std::endl;			//prints out the delta time
 
 			previousTime = currentTime;
 
-			if (down)
+			if (down)			
 			{
-				by++;
+				by += 10;
 			}
-			
+			//The if statement above and below are boolean checkers that checks to see if one of them is true.
+			//down increases the y of the bullet causing it to move down, up decreases the y of the bullet causing it to move up
 			if (up)
 			{
-				by--;
+				by -= 10;
 			}
 
-			if (by >= 900)
+			if (by >= 890)
 			{
 				down = false;
 				up = true;
 			}
-
-			if (by <= 0)
+			//The if statements above and below check the bullet's y. If it "hits" 890, aka the bottom of the screen,
+			if (by <= 10)
 			{
 				down = true;
 				up = false;
@@ -90,7 +91,7 @@ void GameLoop::Loop()
 					up = false;
 					down = true;
 				}
-				else if (by > y + 40)
+				else if (by < y + 40)
 				{
 					down = false;
 					up = true;
@@ -103,8 +104,23 @@ void GameLoop::Loop()
 				movement = -10;
 			}
 
-			if (((bullet == a + 20) && (by >= b && by <= b + 90)))
+			if (((bullet - 20 == a) && (by >= b && by <= b + 90)))
 			{
+				if (by > b + 40)
+				{
+					up = false;
+					down = true;
+				}
+				else if (by < b + 40)
+				{
+					down = false;
+					up = true;
+				}
+				else
+				{
+					down = false;
+					up = false;
+				}
 				movement = 10;
 			}
 
@@ -117,25 +133,25 @@ void GameLoop::Loop()
 
 			else if (bullet <= -10) { bullet = 800; by = 500; down = false; up = false; p2Score++; }
 
-			if (p1W) { if (y > 0) { y -= 10; } }
+			if (p1W) { if (y > 0) { y -= 10 * deltaTime; } }
 
-			if (p1S) { if (y < 900) { y += 10; } }
+			if (p1S) { if (y < 800) { y += 10 * deltaTime; } }
 
-			//if (p1D) { if (x < 1150) { x += 50; } }
+			//if (p1D) { if (x < 1150) { x += 50 * deltaTime; } }
 
-			//if (p1A) { if (x > 450) { x -= 50; } }
+			//if (p1A) { if (x > 450) { x -= 50 * deltaTime; } }
 
-			if (p2UP) { if (b > 0) { b -= 10; } }
+			if (p2UP) { if (b > 0) { b -= 10 * deltaTime; } }
 			
-			if (p2DOWN) { if (b < 900) { b += 10; }}
+			if (p2DOWN) { if (b < 800) { b += 10 * deltaTime; }}
 
-			//if (p2RIGHT) { if (a < 1150) { a += 50; } }
+			//if (p2RIGHT) { if (a < 1150) { a += 50 * deltaTime; } }
 
-			//if (p2LEFT) { if (a > 450) { a -= 50; } }
+			//if (p2LEFT) { if (a > 450) { a -= 50 * deltaTime; } }
 			
-			std::cout << p1Score << std::endl;
+			//std::cout << p1Score << std::endl;
 
-			if (p1Score == 99 || p2Score == 99)
+			if (p1Score == 25 || p2Score == 25)
 			{
 				m_bRunning = false; break;
 			}
@@ -168,16 +184,105 @@ void GameLoop::Draw()
 	//	Graphics::DrawLine({ 400 + (100 * i), 50 }, { 400 + (100 * i), 850 }, { 255, 255, 255, 255 });
 	//}
 	//Graphics::DrawCircle({ x, y }, size, sides, { R, G, B, density });
-	Graphics::DrawRect({ 10, y }, { 10, 100 }, { 255, 255, 255, 255 });
+	Graphics::DrawRect({ 10, y }, { 10, 100 }, { 85, 107, 47, 255 });
 	//Graphics::DrawCircle({ a, b }, size, sides, { R, G, B, density });
-	Graphics::DrawRect({ 1580, b }, { 10, 100 }, { 255, 255, 255, 255 });
+	Graphics::DrawRect({ 1580, b }, { 10, 100 }, { 112, 41, 99, 255 });
 	Graphics::DrawCircle({ bullet, by }, 10, 500, { 255,255,255,255 });
-	//Vector<float> Vec1 = { 300, 0, 0 };
-	//Vector<float> Vec2 = { 0, 400, 0 };
-	//Vector<float> Vec3 = Vec1 + Vec2;
-	//Graphics::DrawLine({ 10, 10 }, { 10, Vec2.y }, { 255, 255, 255, 255 });
-	//Graphics::DrawLine({ 10, 10 }, { Vec1.x, 10 }, { 255, 255, 255, 255 });
-	//Graphics::DrawLine({ Vec3.x, 10 }, { 10, Vec3.y }, { 255, 255, 255, 255 });
+	for (int i = 0; i < 10; i++)
+	{
+		if (p1Score < 10)
+		{
+			Graphics::DrawRect({ 450, 20 }, { 10,100 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 20 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 510, 20 }, { 10,100 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 120 }, { 70,10 }, { 255,255,255,255 });
+		}
+		for (int j = 0; j < 10; j++)
+		{
+			if (p1Score - i * 10 == 0)
+			{
+				Graphics::DrawRect({ 530, 20 }, { 10,100 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 20 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 590, 20 }, { 10,100 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 120 }, { 70,10 }, { 255,255,255,255 });
+			}
+			if (p1Score - i * 10 == 1)
+			{
+				Graphics::DrawRect({ 590, 20 }, { 10,110 }, { 255,255,255,255 });
+			}
+			if (p1Score - i * 10 == 2)
+			{
+				Graphics::DrawRect({ 530, 20 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 590, 20 }, { 10,60 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 70 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 70 }, { 10,60 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 120 }, { 70,10 }, { 255,255,255,255 });
+			}
+			if (p1Score - i * 10 == 3)
+			{
+				Graphics::DrawRect({ 530, 20 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 70 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 120 }, { 70,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 590, 20 }, { 10,100 }, { 255,255,255,255 });
+			}
+			if (p1Score - i * 10 == 4)
+			{
+				Graphics::DrawRect({ 530, 20 }, { 10,60 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 70 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 590, 20 }, { 10,110 }, { 255,255,255,255 });
+			}
+			if (p1Score - i * 10 == 5)
+			{
+				Graphics::DrawRect({ 530, 20 }, { 70,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 20 }, { 10,60 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 70 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 590, 70 }, { 10,60 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 120 }, { 70,10 }, { 255,255,255,255 });
+			}
+			if (p1Score - i * 10 == 6)
+			{
+				Graphics::DrawRect({ 530, 20 }, { 70,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 70 }, { 70,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 120 }, { 70,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 20 }, { 10,110 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 590, 70 }, { 10,60 }, { 255,255,255,255 });
+			}
+			if (p1Score - i * 10 == 7)
+			{
+				Graphics::DrawRect({ 530, 20 }, { 70,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 590, 20 }, { 10,110 }, { 255,255,255,255 });
+			}
+			if (p1Score - i * 10 == 8)
+			{
+				Graphics::DrawRect({ 530, 20 }, { 10,100 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 20 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 590, 20 }, { 10,100 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 120 }, { 70,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 70 }, { 60,10 }, { 255,255,255,255 });
+			}
+			if (p1Score - i * 10 == 9)
+			{
+				Graphics::DrawRect({ 530, 20 }, { 70,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 590, 20 }, { 10,110 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 20 }, { 10,60 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 70 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 530, 120 }, { 70,10 }, { 255,255,255,255 });
+			}
+		}
+	}
+	Vector<float> Vec1 = { 300, 0, 0 };												//Creates a 2D vector
+	Vector<float> Vec2 = { 0, 400, 0 };												//Creates another 2D vector
+	Vector<float> Vec3 = Vec1 + Vec2;												//Creates a third 2D vector 
+	Graphics::DrawLine({ 10, 10 }, { 10, Vec2.y }, { 255, 255, 255, 255 });			//Draws a line using the second 2D vector
+	Graphics::DrawLine({ 10, 10 }, { Vec1.x, 10 }, { 255, 255, 255, 255 });			//Draws a line using the first 2D vector
+	Graphics::DrawLine({ Vec3.x, 10 }, { 10, Vec3.y }, { 255, 255, 255, 255 });		//Draws a third line using the third 2D vector creating a triangle using all three lines
+	Vector<float> Vec3D = { 200, 300, 543 };										//Creates a 3D vector
+	float dotprod = Vec1.DotProduct(Vec2);											//Gets the dotproduct of Vec1 & Vec2
+	Vec3D.Magnitude();																//Creates a variable for the 3D vector magnitude
+	Vec3D.Normalize();																//Normalizes the 3D vector
+	Vector<float> Vec3DNi = { 1234, 3213, 8595 };									//Creates another 3D vector
+	Vec3DNi = Vec3DNi - Vec3D;														//Sets the values of the second 3D vector to the vector minus the first 3D vector
+	Vec3DNi = Vec3DNi.CrossProduct(Vec3D);											//Sets the values of the second 3D vector to the crossproduct of the first and second 3D vectors
 }
 
 void GameLoop::OnKeyDown(const SDL_Keycode ac_sdlSym, const Uint16 ac_uiMod, const SDL_Scancode ac_sdlScancode)

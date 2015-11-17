@@ -32,6 +32,10 @@ bool p2DOWN = false;
 //bool p2RIGHT = false;
 //bool p2LEFT = false;
 int movement = 10;
+int p1Score = 0;
+int p2Score = 0;
+bool down = false;
+bool up = false;
 
 void GameLoop::Loop()
 {
@@ -57,19 +61,61 @@ void GameLoop::Loop()
 
 			previousTime = currentTime;
 
+			if (down)
+			{
+				by++;
+			}
+			
+			if (up)
+			{
+				by--;
+			}
+
+			if (by >= 900)
+			{
+				down = false;
+				up = true;
+			}
+
+			if (by <= 0)
+			{
+				down = true;
+				up = false;
+			}
+
 			if (((bullet == x - 20) && (by >= y && by <= y + 90)))
 			{
+				if (by > y + 40)
+				{
+					up = false;
+					down = true;
+				}
+				else if (by > y + 40)
+				{
+					down = false;
+					up = true;
+				}
+				else
+				{
+					down = false;
+					up = false;
+				}
 				movement = -10;
-				
+			}
+
+			if (((bullet == a + 20) && (by >= b && by <= b + 90)))
+			{
+				movement = 10;
 			}
 
 			if ((bullet < 1610 && bullet > -10))
 			{
 				BULLET(bullet, deltaTime, movement);
-			
 			}
 			
-			else { bullet = 800; }
+			else if (bullet >= 1610) { bullet = 800; by = 500; down = false; up = false; p1Score++; }
+
+			else if (bullet <= -10) { bullet = 800; by = 500; down = false; up = false; p2Score++; }
 
 			if (p1W) { if (y > 0) { y -= 10; } }
 
@@ -86,6 +132,13 @@ void GameLoop::Loop()
 			//if (p2RIGHT) { if (a < 1150) { a += 50; } }
 
 			//if (p2LEFT) { if (a > 450) { a -= 50; } }
+			
+			std::cout << p1Score << std::endl;
+
+			if (p1Score == 99 || p2Score == 99)
+			{
+				m_bRunning = false; break;
+			}
 
 			Update();
 
@@ -109,16 +162,16 @@ void GameLoop::LateUpdate()
 
 void GameLoop::Draw()
 {
-	for (float i = 0; i < 9; i++)
-	{
-		Graphics::DrawLine({ 400 , 50 + (100 * i) }, { 1200, 50 + (100 * i) }, { 255, 255, 255, 255 });
-		Graphics::DrawLine({ 400 + (100 * i), 50 }, { 400 + (100 * i), 850 }, { 255, 255, 255, 255 });
-	}
+	//for (float i = 0; i < 9; i++)
+	//{
+	//	Graphics::DrawLine({ 400 , 50 + (100 * i) }, { 1200, 50 + (100 * i) }, { 255, 255, 255, 255 });
+	//	Graphics::DrawLine({ 400 + (100 * i), 50 }, { 400 + (100 * i), 850 }, { 255, 255, 255, 255 });
+	//}
 	//Graphics::DrawCircle({ x, y }, size, sides, { R, G, B, density });
-	Graphics::DrawRect({ 10, y }, { 10, 100 }, { 150, 200, 255, 255 });
+	Graphics::DrawRect({ 10, y }, { 10, 100 }, { 255, 255, 255, 255 });
 	//Graphics::DrawCircle({ a, b }, size, sides, { R, G, B, density });
-	Graphics::DrawRect({ 1580, b }, { 10, 100 }, { 150, 200, 255, 255 });
-	Graphics::DrawCircle({ bullet, by }, 10, 500, { 200,200,200,255 });
+	Graphics::DrawRect({ 1580, b }, { 10, 100 }, { 255, 255, 255, 255 });
+	Graphics::DrawCircle({ bullet, by }, 10, 500, { 255,255,255,255 });
 	//Vector<float> Vec1 = { 300, 0, 0 };
 	//Vector<float> Vec2 = { 0, 400, 0 };
 	//Vector<float> Vec3 = Vec1 + Vec2;

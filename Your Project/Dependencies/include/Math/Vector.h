@@ -6,7 +6,8 @@ class Vector		//Vector class to perform vector equations
 {
 public:
 	Vector<T>();							//Default constructor for the Vector class
-	Vector<T>(T, T, T);						//Manual constructor for the Vector class
+	Vector<T>(T, T);						//Manual constructor for a 2D Vector class
+	Vector<T>(T, T, T);						//Manual constructor for a 3D Vector class
 	T x, y, z;								//Creates the x, y, and z variables to represent the x, y, and z values for Vectors
 	template <typename T>
 	Vector<T> operator+(Vector<T> other)	//Overloads the addition operator to allow for Vectors to be added together
@@ -53,6 +54,14 @@ Vector<T>::Vector()
 {
 	x = 0.0;
 	y = 0.0;
+	z = 0.0;
+}
+
+template <typename T>
+Vector<T>::Vector(T a, T b)
+{
+	x = a;
+	y = b;
 	z = 0.0;
 }
 

@@ -151,7 +151,7 @@ void GameLoop::Loop()
 			
 			//std::cout << p1Score << std::endl;
 
-			if (p1Score == 99 || p2Score == 99)
+			if (p1Score == 25 || p2Score == 25)
 			{
 				m_bRunning = false; break;
 			}

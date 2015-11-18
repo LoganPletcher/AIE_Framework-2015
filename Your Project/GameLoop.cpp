@@ -33,7 +33,7 @@ bool p2DOWN = false;
 //bool p2LEFT = false;
 int movement = 10;
 int p1Score = -1;
-int p2Score = -1;
+int p2Score = 0;
 bool down = false;
 bool up = false;
 
@@ -84,7 +84,7 @@ void GameLoop::Loop()
 				up = false;
 			}
 
-			if (((bullet == x - 20) && (by >= y && by <= y + 90)))
+			if (((bullet == x - 20) && (by >= y - 10 && by <= y + 100)))
 			{
 				if (by > y + 40)
 				{
@@ -104,7 +104,7 @@ void GameLoop::Loop()
 				movement = -10;
 			}
 
-			if (((bullet - 20 == a) && (by >= b && by <= b + 90)))
+			if (((bullet - 20 == a) && (by >= b - 10 && by <= b + 100)))
 			{
 				if (by > b + 40)
 				{
@@ -151,7 +151,7 @@ void GameLoop::Loop()
 			
 			//std::cout << p1Score << std::endl;
 
-			if (p1Score == 25 || p2Score == 25)
+			if (p1Score == 99 || p2Score == 99)
 			{
 				m_bRunning = false; break;
 			}
@@ -190,11 +190,73 @@ void GameLoop::Draw()
 	Graphics::DrawCircle({ bullet, by }, 10, 500, { 255,255,255,255 });
 	for (int i = 0; i < 10; i++)
 	{
-		if (p1Score < 10)
+		if (p1Score / 10 == 0)
 		{
 			Graphics::DrawRect({ 450, 20 }, { 10,100 }, { 255,255,255,255 });
 			Graphics::DrawRect({ 450, 20 }, { 60,10 }, { 255,255,255,255 });
 			Graphics::DrawRect({ 510, 20 }, { 10,100 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 120 }, { 70,10 }, { 255,255,255,255 });
+		}
+		if (p1Score / 10 == 1)
+		{
+			Graphics::DrawRect({ 510, 20 }, { 10,110 }, { 255,255,255,255 });
+		}
+		if (p1Score / 10 == 2)
+		{
+			Graphics::DrawRect({ 450, 20 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 510, 20 }, { 10,60 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 70 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 70 }, { 10,60 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 120 }, { 70,10 }, { 255,255,255,255 });
+		}
+		if (p1Score / 10 == 3)
+		{
+			Graphics::DrawRect({ 450, 20 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 70 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 120 }, { 70,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 510, 20 }, { 10,100 }, { 255,255,255,255 });
+		}
+		if (p1Score / 10 == 4)
+		{
+			Graphics::DrawRect({ 450, 20 }, { 10,60 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 70 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 510, 20 }, { 10,110 }, { 255,255,255,255 });
+		}
+		if (p1Score / 10 == 5)
+		{
+			Graphics::DrawRect({ 450, 20 }, { 70,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 20 }, { 10,60 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 70 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 510, 70 }, { 10,60 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 120 }, { 70,10 }, { 255,255,255,255 });
+		}
+		if (p1Score / 10 == 6)
+		{
+			Graphics::DrawRect({ 450, 20 }, { 70,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 70 }, { 70,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 120 }, { 70,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 20 }, { 10,110 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 510, 70 }, { 10,60 }, { 255,255,255,255 });
+		}
+		if (p1Score / 10 == 7)
+		{
+			Graphics::DrawRect({ 450, 20 }, { 70,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 510, 20 }, { 10,110 }, { 255,255,255,255 });
+		}
+		if (p1Score / 10 == 8)
+		{
+			Graphics::DrawRect({ 450, 20 }, { 10,100 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 20 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 510, 20 }, { 10,100 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 120 }, { 70,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 70 }, { 60,10 }, { 255,255,255,255 });
+		}
+		if (p1Score / 10 == 9)
+		{
+			Graphics::DrawRect({ 450, 20 }, { 70,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 510, 20 }, { 10,110 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 20 }, { 10,60 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 450, 70 }, { 60,10 }, { 255,255,255,255 });
 			Graphics::DrawRect({ 450, 120 }, { 70,10 }, { 255,255,255,255 });
 		}
 		for (int j = 0; j < 10; j++)
@@ -267,6 +329,151 @@ void GameLoop::Draw()
 				Graphics::DrawRect({ 530, 20 }, { 10,60 }, { 255,255,255,255 });
 				Graphics::DrawRect({ 530, 70 }, { 60,10 }, { 255,255,255,255 });
 				Graphics::DrawRect({ 530, 120 }, { 70,10 }, { 255,255,255,255 });
+			}
+		}
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		if (p2Score / 10 == 0)
+		{
+			Graphics::DrawRect({ 1110, 20 }, { 10,100 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 20 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1170, 20 }, { 10,100 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 120 }, { 70,10 }, { 255,255,255,255 });
+		}
+		if (p2Score / 10 == 1)
+		{
+			Graphics::DrawRect({ 1170, 20 }, { 10,110 }, { 255,255,255,255 });
+		}
+		if (p2Score / 10 == 2)
+		{
+			Graphics::DrawRect({ 1110, 20 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1170, 20 }, { 10,60 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 70 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 70 }, { 10,60 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 120 }, { 70,10 }, { 255,255,255,255 });
+		}
+		if (p2Score / 10 == 3)
+		{
+			Graphics::DrawRect({ 1110, 20 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 70 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 120 }, { 70,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1170, 20 }, { 10,100 }, { 255,255,255,255 });
+		}
+		if (p2Score / 10 == 4)
+		{
+			Graphics::DrawRect({ 1110, 20 }, { 10,60 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 70 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1170, 20 }, { 10,110 }, { 255,255,255,255 });
+		}
+		if (p2Score / 10 == 5)
+		{
+			Graphics::DrawRect({ 1110, 20 }, { 70,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 20 }, { 10,60 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 70 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1170, 70 }, { 10,60 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 120 }, { 70,10 }, { 255,255,255,255 });
+		}
+		if (p2Score / 10 == 6)
+		{
+			Graphics::DrawRect({ 1110, 20 }, { 70,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 70 }, { 70,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 120 }, { 70,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 20 }, { 10,110 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1170, 70 }, { 10,60 }, { 255,255,255,255 });
+		}
+		if (p2Score / 10 == 7)
+		{
+			Graphics::DrawRect({ 1110, 20 }, { 70,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1170, 20 }, { 10,110 }, { 255,255,255,255 });
+		}
+		if (p2Score / 10 == 8)
+		{
+			Graphics::DrawRect({ 1110, 20 }, { 10,100 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 20 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1170, 20 }, { 10,100 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 120 }, { 70,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 70 }, { 60,10 }, { 255,255,255,255 });
+		}
+		if (p2Score / 10 == 9)
+		{
+			Graphics::DrawRect({ 1110, 20 }, { 70,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1170, 20 }, { 10,110 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 20 }, { 10,60 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 70 }, { 60,10 }, { 255,255,255,255 });
+			Graphics::DrawRect({ 1110, 120 }, { 70,10 }, { 255,255,255,255 });
+		}
+		for (int j = 0; j < 10; j++)
+		{
+			if (p2Score - i * 10 == 0)
+			{
+				Graphics::DrawRect({ 1190, 20 }, { 10,100 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 20 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1250, 20 }, { 10,100 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 120 }, { 70,10 }, { 255,255,255,255 });
+			}
+			if (p2Score - i * 10 == 1)
+			{
+				Graphics::DrawRect({ 1250, 20 }, { 10,110 }, { 255,255,255,255 });
+			}
+			if (p2Score - i * 10 == 2)
+			{
+				Graphics::DrawRect({ 1190, 20 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1250, 20 }, { 10,60 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 70 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 70 }, { 10,60 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 120 }, { 70,10 }, { 255,255,255,255 });
+			}
+			if (p2Score - i * 10 == 3)
+			{
+				Graphics::DrawRect({ 1190, 20 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 70 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 120 }, { 70,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1250, 20 }, { 10,100 }, { 255,255,255,255 });
+			}
+			if (p2Score - i * 10 == 4)
+			{
+				Graphics::DrawRect({ 1190, 20 }, { 10,60 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 70 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1250, 20 }, { 10,110 }, { 255,255,255,255 });
+			}
+			if (p2Score - i * 10 == 5)
+			{
+				Graphics::DrawRect({ 1190, 20 }, { 70,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 20 }, { 10,60 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 70 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1250, 70 }, { 10,60 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 120 }, { 70,10 }, { 255,255,255,255 });
+			}
+			if (p2Score - i * 10 == 6)
+			{
+				Graphics::DrawRect({ 1190, 20 }, { 70,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 70 }, { 70,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 120 }, { 70,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 20 }, { 10,110 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1250, 70 }, { 10,60 }, { 255,255,255,255 });
+			}
+			if (p2Score - i * 10 == 7)
+			{
+				Graphics::DrawRect({ 1190, 20 }, { 70,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1250, 20 }, { 10,110 }, { 255,255,255,255 });
+			}
+			if (p2Score - i * 10 == 8)
+			{
+				Graphics::DrawRect({ 1190, 20 }, { 10,100 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 20 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1250, 20 }, { 10,100 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 120 }, { 70,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 70 }, { 60,10 }, { 255,255,255,255 });
+			}
+			if (p2Score - i * 10 == 9)
+			{
+				Graphics::DrawRect({ 1190, 20 }, { 70,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1250, 20 }, { 10,110 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 20 }, { 10,60 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 70 }, { 60,10 }, { 255,255,255,255 });
+				Graphics::DrawRect({ 1190, 120 }, { 70,10 }, { 255,255,255,255 });
 			}
 		}
 	}

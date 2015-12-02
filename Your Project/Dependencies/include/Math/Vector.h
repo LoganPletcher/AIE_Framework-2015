@@ -48,7 +48,7 @@ public:
 	Vector<T> Normalize();					//Divides the Vectors x, y, z, & magnitude by it's magnitude and assigns the results to a temporary Vector for assinging the values to a Vector
 	T DotProduct(Vector<T>);				//Gets the dot product of two Vectors and stores it in a temporary variable
 	Vector<T> CrossProduct(Vector<T>);		//Gets the cross product of two Vectors and stores it in a temporary Vector
-
+	Vector<T> Interpolation(Vector<T>, float);		//Finds a new Vector that lies somewhere between two Vectors.
 private:
 
 };
@@ -115,7 +115,7 @@ template <typename T>
 T Vector<T>::DotProduct(Vector<T> other)
 {
 	T dotprod;
-	dotprod = ((x*other.x) + (y*other.y) + (z*other.z) + (w*other.z));
+	dotprod = ((x*other.x) + (y*other.y) + (z*other.z) + (w*other.w));
 
 	return dotprod;
 }
@@ -129,6 +129,17 @@ Vector<T> Vector<T>::CrossProduct(Vector<T> other)
 	temp.z = ((x*other.y) - (y*other.x));
 	
 	return temp;
+}
+
+template <typename T>
+Vector<T> Vector<T>::Interpolation(Vector<T> other, float t)
+{
+	Vector<float> L;
+	L.x = (1 - t) * x + t * other.x;
+	L.y = (1 - t) * y + t * other.y;
+	L.z = (1 - t) * z + t * other.z;
+	L.w = (1 - t) * w + t * other.w;
+	return L;
 }
 
 #endif VECTOR_H

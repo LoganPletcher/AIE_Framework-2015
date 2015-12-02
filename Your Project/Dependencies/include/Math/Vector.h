@@ -8,7 +8,8 @@ public:
 	Vector<T>();							//Default constructor for the Vector class
 	Vector<T>(T, T);						//Manual constructor for a 2D Vector class
 	Vector<T>(T, T, T);						//Manual constructor for a 3D Vector class
-	T x, y, z;								//Creates the x, y, and z variables to represent the x, y, and z values for Vectors
+	Vector<T>(T, T, T, T);					//Manual constructor for a 4D Vector class
+	T x, y, z, w;								//Creates the x, y, and z variables to represent the x, y, and z values for Vectors
 	template <typename T>
 	Vector<T> operator+(Vector<T> other)	//Overloads the addition operator to allow for Vectors to be added together
 	{
@@ -16,6 +17,7 @@ public:
 		temp.x = x + other.x;
 		temp.y = y + other.y;
 		temp.z = z + other.z;
+		temp.w = w + other.w;
 
 		return temp;
 	}
@@ -26,6 +28,7 @@ public:
 		temp.x = x - other.x;
 		temp.y = y - other.y;
 		temp.z = z - other.z;
+		temp.w = w - other.w;
 
 		return temp;
 	}
@@ -36,6 +39,7 @@ public:
 		temp.x = x * other.x;
 		temp.y = y * other.y;
 		temp.z = z * other.z;
+		temp.w = w * other.w;
 
 		return temp;
 	}
@@ -55,6 +59,7 @@ Vector<T>::Vector()
 	x = 0.0;
 	y = 0.0;
 	z = 0.0;
+	w = 0.0;
 }
 
 template <typename T>
@@ -63,6 +68,7 @@ Vector<T>::Vector(T a, T b)
 	x = a;
 	y = b;
 	z = 0.0;
+	w = 0.0;
 }
 
 template <typename T>
@@ -71,13 +77,23 @@ Vector<T>::Vector(T a, T b, T c)
 	x = a;
 	y = b;
 	z = c;
+	w = 0.0;
+}
+
+template <typename T>
+Vector<T>::Vector(T a, T b, T c, T d)
+{
+	x = a;
+	y = b;
+	z = c;
+	w = d;
 }
 
 template <typename T>
 T Vector<T>::Magnitude()
 {
 	Vector<T> temp = *this * *this;
-	magnitude = sqrt(temp.x + temp.y + temp.z);
+	magnitude = sqrt(temp.x + temp.y + temp.z + temp.w);
 
 	return magnitude;
 }
@@ -89,6 +105,7 @@ Vector<T> Vector<T>::Normalize()
 	temp.x = x / magnitude;
 	temp.y = y / magnitude;
 	temp.z = z / magnitude;
+	temp.w = w / magnitude;
 	temp.magnitude = magnitude / magnitude;
 
 	return temp;
@@ -98,7 +115,7 @@ template <typename T>
 T Vector<T>::DotProduct(Vector<T> other)
 {
 	T dotprod;
-	dotprod = ((x*other.x) + (y*other.y) + (z*other.z));
+	dotprod = ((x*other.x) + (y*other.y) + (z*other.z) + (w*other.z));
 
 	return dotprod;
 }

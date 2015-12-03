@@ -8,6 +8,7 @@ void BULLET(int &bullet, int deltaTime)
 	bullet -= 10 * deltaTime;
 }
 
+
 int x = 1600;
 int y = 0;
 int size = 200;
@@ -48,6 +49,9 @@ void GameLoop::Loop()
 			currentTime = clock();
 			deltaTime = (currentTime - previousTime) / 10;
 			std::cout << deltaTime << std::endl;
+
+			char hexcode[8] = "#AA7807";
+			Vector<float> RGBA4D = RGBA4D.HexConv(hexcode);
 			
 			if (!((bullet - 10 <= x + size && bullet >= x - size) && (by <= y + size && by >= y - size)))
 			{
@@ -114,7 +118,7 @@ void GameLoop::Draw()
 
 	Graphics::DrawRing({ 10, 10 }, 50, 25, { 50, 0, 200, 255 });
 	Graphics::DrawCircle({ x, y }, size, sides, { R, G, B, density });
-	Graphics::DrawCircle({ bullet, 450 }, 10, 500, { 200,200,200,255 });
+	Graphics::DrawCircle({ bullet, 450 }, 10, 500, { 100,100,100,255 });
 
 	int playerX = bodyX;
 	int playerY = bodyY;
@@ -168,7 +172,7 @@ void GameLoop::Draw()
 	Vector<float> Vec3D = { 200, 300, 543 };										//Creates a 3D vector
 	std::cout << "3D Vector Values: (" << Vec3D.x << ", " << Vec3D.y << ", " << Vec3D.z << ")\n";
 	float dotprod = Vec1.DotProduct(Vec2);											//Gets the dotproduct of Vec1 & Vec2
-	std::cout << "3D Vector Dot Product: " << dotprod << std::endl;
+	std::cout << "Vector Dot Product: " << dotprod << std::endl;
 	Vec3D.Magnitude();																//Creates a variable for the 3D vector magnitude
 	std::cout << "3D Vector Magnitude: " << Vec3D.magnitude << std::endl;
 	Vec3D.Normalize();																//Normalizes the 3D vector

@@ -78,9 +78,9 @@ typedef struct SDL_version
  */
 #define SDL_VERSION(x)                          \
 {                                   \
-    (x)->major = SDL_MAJOR_VERSION;                 \
-    (x)->minor = SDL_MINOR_VERSION;                 \
-    (x)->patch = SDL_PATCHLEVEL;                    \
+    (minX)->major = SDL_MAJOR_VERSION;                 \
+    (minX)->minor = SDL_MINOR_VERSION;                 \
+    (minX)->patch = SDL_PATCHLEVEL;                    \
 }
 
 /**

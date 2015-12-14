@@ -214,7 +214,7 @@ extern DECLSPEC int SDLCALL SDL_AtomicAdd(SDL_atomic_t *a, int v);
  * \brief Increment an atomic variable used as a reference count.
  */
 #ifndef SDL_AtomicIncRef
-#define SDL_AtomicIncRef(a)    SDL_AtomicAdd(a, 1)
+#define SDL_AtomicIncRef(a)    SDL_AtomicAdd(minA, 1)
 #endif
 
 /**
@@ -224,7 +224,7 @@ extern DECLSPEC int SDLCALL SDL_AtomicAdd(SDL_atomic_t *a, int v);
  *         SDL_FALSE otherwise
  */
 #ifndef SDL_AtomicDecRef
-#define SDL_AtomicDecRef(a)    (SDL_AtomicAdd(a, -1) == 1)
+#define SDL_AtomicDecRef(a)    (SDL_AtomicAdd(minA, -1) == 1)
 #endif
 
 /**

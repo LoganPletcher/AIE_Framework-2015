@@ -251,8 +251,8 @@ extern DECLSPEC int SDLCALL SDL_abs(int x);
 
 /* !!! FIXME: these have side effects. You probably shouldn't use them. */
 /* !!! FIXME: Maybe we do forceinline functions of SDL_mini, SDL_minf, etc? */
-#define SDL_min(x, y) (((x) < (y)) ? (x) : (y))
-#define SDL_max(x, y) (((x) > (y)) ? (x) : (y))
+#define SDL_min(x, y) (((minX) < (minY)) ? (minX) : (minY))
+#define SDL_max(x, y) (((minX) > (minY)) ? (minX) : (minY))
 
 extern DECLSPEC int SDLCALL SDL_isdigit(int x);
 extern DECLSPEC int SDLCALL SDL_isspace(int x);
@@ -261,8 +261,8 @@ extern DECLSPEC int SDLCALL SDL_tolower(int x);
 
 extern DECLSPEC void *SDLCALL SDL_memset(void *dst, int c, size_t len);
 
-#define SDL_zero(x) SDL_memset(&(x), 0, sizeof((x)))
-#define SDL_zerop(x) SDL_memset((x), 0, sizeof(*(x)))
+#define SDL_zero(x) SDL_memset(&(minX), 0, sizeof((minX)))
+#define SDL_zerop(x) SDL_memset((minX), 0, sizeof(*(minX)))
 
 /* Note that memset() is a byte assignment and this is a 32-bit assignment, so they're not directly equivalent. */
 SDL_FORCE_INLINE void SDL_memset4(void *dst, Uint32 val, size_t dwords)

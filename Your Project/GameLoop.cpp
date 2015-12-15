@@ -2,18 +2,44 @@
 #include <iostream>
 #include "GameLoop.h"
 #include "Vector.h"
+#include <cstdlib>
 
 //void BULLET(int &bullet, int deltaTime)
 //{
 //	bullet -= 10 * deltaTime;
 //}
 
-bool BCollision()
+bool BCollision(Vector<float> minOne, Vector<float> maxOne, Vector<float> minTwo, Vector<float> maxTwo)
 {
+	bool Xcollision = false;
+	bool Ycollision = false;
+	bool Zcollision = false;
+	bool collision = false;
 
+	if (((minOne.x >= minTwo.x && minOne.x <= maxTwo.x) || (maxOne.x >= minTwo.x && maxOne.x <= maxTwo.x)) 
+		|| ((minTwo.x >= minOne.x && minTwo.x <= maxOne.x) || (maxTwo.x >= minOne.x && maxTwo.x <= maxOne.x)))
+	{
+		Xcollision = true;
+	}
 
+	if (((minOne.y >= minTwo.y && minOne.y <= maxTwo.y) || (maxOne.y >= minTwo.y && maxOne.y <= maxTwo.y))
+		|| ((minTwo.y >= minOne.y && minTwo.y <= maxOne.y) || (maxTwo.y >= minOne.y && maxTwo.y <= maxOne.y)))
+	{
+		Ycollision = true;
+	}
 
-	return 0;
+	if (((minOne.z >= minTwo.z && minOne.z <= maxTwo.z) || (maxOne.z >= minTwo.z && maxOne.z <= maxTwo.z))
+		|| ((minTwo.z >= minOne.z && minTwo.z <= maxOne.z) || (maxTwo.z >= minOne.z && maxTwo.z <= maxOne.z)))
+	{
+		Zcollision = true;
+	}
+	if (Xcollision == true && Ycollision == true && Zcollision == true)
+	{
+		collision = true;
+		std::cout << "BOOYAW!" << std::endl;
+	}
+
+	return collision;
 }
 
 //int x = 1600;
@@ -35,12 +61,17 @@ int deltaTime = 0;
 //bool inverse = false;
 //Vector<int> RGBAC = { 230,230,230,255 };
 //Vector<float> RGBAR = { 230, 230, 230, 255 };
-Vector<float> minONE = { 0, 450 };
-Vector<float> maxONE = { 50,500 };
-float minA = 1550;
-float maxA = 1600;
-float minB = 450;
-float maxB = 500;
+Vector<float> p0 = { 0, 450, 1 };
+Vector<float> p1 = { 50, 450, 1 };
+Vector<float> p2 = { 0, 500, 1 };
+Vector<float> p3 = { 50, 500, 1 };
+Vector<float> q0 = { 1550,450 };
+Vector<float> q1 = { 1600,450 };
+Vector<float> q2 = { 1550,500 };
+Vector<float> q3 = { 1600,500 };
+float randx = rand() % 1550;
+float randy = rand() & 850;
+Vector<float> g0 = { randx, randy };
 bool p1W = false;
 bool p1S = false;
 bool p1D = false;
@@ -49,6 +80,8 @@ bool p2UP = false;
 bool p2DOWN = false;
 bool p2RIGHT = false;
 bool p2LEFT = false;
+bool Up = false;
+bool Left = false;
 void GameLoop::Loop()
 {
 	while (m_bRunning)
@@ -70,7 +103,9 @@ void GameLoop::Loop()
 			currentTime = clock();
 			deltaTime = (currentTime - previousTime) / 10;
 			std::cout << deltaTime << "\n\n";
-			//
+			
+
+
 			//if (!((bullet - 10 <= x + size && bullet >= x - size) && (by <= y + size && by >= y - size)))
 			//{
 			//	if (bullet < 1610 && bullet > -10) { BULLET(bullet, deltaTime); }
@@ -97,46 +132,57 @@ void GameLoop::Loop()
 			//{
 			//	bodyY++;
 			//}
+			//BCollision(p0, p1, , maxTwo);
+			if (!(BCollision(p0, p1, q2, q3)))
+			{
+				if (p1W) { if (p0.y > 0) { p0.y -= 10 * deltaTime; } }
+			} 
 
-			//if (!(((min1.x >= minA && min1.x <= maxA) || (maxONE.x >= minA && maxONE.x <= maxA)) && (min1.y <= maxB && min1.y >= minB)))
-			//{
-				if (p1W) { if (minONE.y > 0) { minONE.y -= 10 * deltaTime; } }
-			//} 
+			if (!(BCollision(p2, p3, q0, q1)))
+			{
+				if (p1S) { if (p0.y < 850) { p0.y += 10 * deltaTime; } }
+			}
 
-			//if (!(((min1.x >= minA && min1.x <= maxA) || (maxONE.x >= minA && maxONE.x <= maxA)) && (maxONE.y >= minB && maxONE.y <= maxB)))
-			//{
-				if (p1S) { if (minONE.y < 800) { minONE.y += 10 * deltaTime; } }
-			//}
+			if (!(BCollision(p1, p3, q0, q2)))
+			{
+				if (p1D) { if (p0.x < 1550) { p0.x += 10 * deltaTime; } }
+			}
 
-			//if (!(((min1.y >= minB && min1.y <= maxB) || (maxONE.y >= minB && maxONE.y <= maxB)) && (maxONE.x >= minA && maxONE.x <= maxA)))
-			//{
-				if (p1D) { if (minONE.x < 1550) { minONE.x += 10 * deltaTime; } }
-			//}
+			if (!(BCollision(p0, p2, q1, q3)))
+			{
+				if (p1A) { if (p0.x > 0) { p0.x -= 10 * deltaTime; } }
+			}
 
-			//if (!(((min1.y >= minB && min1.y <= maxB) || (maxONE.y >= minB && maxONE.y <= maxB)) && (min1.x <= maxA && min1.x >= minA)))
-			//{
-				if (p1A) { if (minONE.x > 0) { minONE.x -= 10 * deltaTime; } }
-			//}
+			if (!(BCollision(q0, q1, p2, p3)))
+			{
+				if (p2UP) { if (q0.y > 0) { q0.y -= 10 * deltaTime; } }
+			}
 
-			//if (!(((minA >= min1.x && minA <= maxONE.x) || (maxA >= min1.x && maxA <= maxONE.x)) && (minB <= maxONE.y && minB >= min1.y)))
-			//{
-				if (p2UP) { if (minB > 0) { minB -= 10 * deltaTime; } }
-			//}
+			if (!(BCollision(q2, q3, p0, p1)))
+			{
+				if (p2DOWN) { if (q0.y < 850) { q0.y += 10 * deltaTime; } }
+			}
 
-			//if (!(((minA >= min1.x && minA <= maxONE.x) || (maxA >= min1.x && maxA <= maxONE.x)) && (maxB >= min1.y && maxB <=maxONE.y)))
-			//{
-				if (p2DOWN) { if (minB < 800) { minB += 10 * deltaTime; } }
-			//}
+			if (!(BCollision(q1, q3, p0, p2)))
+			{
+				if (p2RIGHT) { if (q0.x < 1550) { q0.x += 10 * deltaTime; } }
+			}
 
-			//if (!(((minB >= min1.y && minB <= maxONE.y) || (maxB >= min1.y && maxB <= maxONE.y)) && (maxA >= min1.x && maxA <= maxONE.x)))
-			//{
-				if (p2RIGHT) { if (minA < 1550) { minA += 10 * deltaTime; } }
-			//}
+			if (!(BCollision(q0, q2, p1, p3)))
+			{
+				if (p2LEFT) { if (q0.x > 0) { q0.x -= 10 * deltaTime; } }
+			}
+			
+			if (g0.x <= 0) { Left = false; }
+			if (g0.x >= 1550) { Left = true; }
+			if (g0.y <= 0) { Up = false; }
+			if (g0.y >= 850) { Up = true; }
 
-			//if (!(((minB >= min1.y && minB <= maxONE.y) || (maxB >= min1.y && maxB <= maxONE.y)) && (minA <= maxONE.x && minA >= min1.x)))
-			//{
-				if (p2LEFT) { if (minA > 0) { minA -= 10 * deltaTime; } }
-			//}
+			if (Up){ g0.y -= 10 * deltaTime; }
+			else { g0.y += 10 * deltaTime; }
+
+			if (Left){ g0.x -= 10 * deltaTime; }
+			else { g0.x += 10 * deltaTime; }
 
 			previousTime = currentTime;
 
@@ -205,14 +251,14 @@ void GameLoop::Draw()
 	//test3Dvector.Magnitude();
 	//std::cout << "Magnitude: " << test3Dvector.magnitude << std::endl;
 
-	Vector<float> test2DvectorONE = { 1,1 };
-	std::cout << "Test 2D Vector 1: ( " << test2DvectorONE.x << "," << test2DvectorONE.y << " )\n";
-	Vector<float> test2DvectorTWO = { 2,2 };
-	std::cout << "Test 2D Vector 2: ( " << test2DvectorTWO.x << "," << test2DvectorTWO.y << " )\n";
-	Vector<float> test2DvectorTHREE = test2DvectorONE + test2DvectorTWO;
-	std::cout << "Test 2D Vector 3: ( " << test2DvectorTHREE.x << "," << test2DvectorTHREE.y << " )\n";
-	Vector<float> test2DvectorFOUR = test2DvectorTHREE - test2DvectorONE;
-	std::cout << "Test 2D Vector 4: ( " << test2DvectorFOUR.x << "," << test2DvectorFOUR.y << " )\n";
+	//Vector<float> test2DvectorONE = { 1,1 };
+	//std::cout << "Test 2D Vector 1: ( " << test2DvectorONE.x << "," << test2DvectorONE.y << " )\n";
+	//Vector<float> test2DvectorTWO = { 2,2 };
+	//std::cout << "Test 2D Vector 2: ( " << test2DvectorTWO.x << "," << test2DvectorTWO.y << " )\n";
+	//Vector<float> test2DvectorTHREE = test2DvectorONE + test2DvectorTWO;
+	//std::cout << "Test 2D Vector 3: ( " << test2DvectorTHREE.x << "," << test2DvectorTHREE.y << " )\n";
+	//Vector<float> test2DvectorFOUR = test2DvectorTHREE - test2DvectorONE;
+	//std::cout << "Test 2D Vector 4: ( " << test2DvectorFOUR.x << "," << test2DvectorFOUR.y << " )\n";
 
 	//Vector<float> test3DvectorONE = { 1,1,1 };
 	//std::cout << "Test 3D Vector 1: ( " << test3DvectorONE.x << "," << test3DvectorONE.y << "," << test3DvectorONE.z << " )\n";
@@ -261,22 +307,23 @@ void GameLoop::Draw()
 	//Graphics::DrawRect({ 0, 0 }, { 1600, 900 }, { RGBA4D.x, RGBA4D.y, RGBA4D.z, RGBA4D.w });
 	//Graphics::DrawRect({ 410, 0 }, { 400, 900 }, { 160, 65, 255, 255 });
 	//Graphics::DrawRect({ 250, 500 }, { 1000, 200 }, { 0, 255, 0, 255 });
-	//Vector<float> Vec1 = { 300, 0};
-	//Vector<float> Vec2 = { 0, 400};
-	//double percentage = 0.0;
-	//for (int i = 0; i < 100; i++)
-	//{
-	//	Vector<float> Vec3;
-	//	Vec3.x = 10 + Vec3.Interpolation(Vec1.x, Vec2.x, percentage);
-	//	Vec3.y = 10 + Vec3.Interpolation(Vec1.y, Vec2.y, percentage);
-	//	Graphics::DrawLine({ Vec3.x, 10 }, { 10, Vec3.y }, { 255, 255, 255, 255 });
-	//	percentage += 0.01;
-	//}
-	//
-	//Graphics::DrawLine({ 10, 10 }, { 10, Vec2.y }, { 255, 255, 255, 255 });
-	//Graphics::DrawLine({ 10, 10 }, { Vec1.x, 10 }, { 255, 255, 255, 255 });
-	//
-	//Graphics::DrawPoint({ 10, 10 }, { 255, 0, 0, 255 });
+	Vector<float> Vec1 = { 300, 0};
+	Vector<float> Vec2 = { 0, 400};
+	double percentage = 0.0;
+	for (int i = 0; i < 96; i++)
+	{
+		Vector<float> Vec3;
+		Vec3.x = 5 + Vec3.Interpolation(Vec1.x, Vec2.x, percentage);
+		Vec3.y = 5 + Vec3.Interpolation(Vec1.y, Vec2.y, percentage);
+		//Graphics::DrawLine({ Vec3.x, 10 }, { 10, Vec3.x }, { 255, 255, 255, 255 });
+		Graphics::DrawLine({ Vec3.x - 5, 10 }, { 10, Vec3.x - 5 }, { 255, 255, 255, 255 });
+		percentage += 0.01;
+	}
+	
+	Graphics::DrawLine({ 10, 10 }, { 10, Vec2.y }, { 255, 255, 255, 255 });
+	Graphics::DrawLine({ 10, 10 }, { Vec1.x, 10 }, { 255, 255, 255, 255 });
+	
+	Graphics::DrawPoint({ 10, 10 }, { 255, 0, 0, 255 });
 
 	//Graphics::DrawRing({ 10, 10 }, 50, 25, { 255, 0, 0, 255 });
 	//Graphics::DrawCircle({ x, y }, size, sides, { R, G, B, density });
@@ -342,14 +389,23 @@ void GameLoop::Draw()
 	//Vec3DNi = Vec3DNi - Vec3D;														//Sets the values of the second 3D vector to the vector minus the first 3D vector
 	//Vec3DNi = Vec3DNi.CrossProduct(Vec3D);											//Sets the values of the second 3D vector to the crossproduct of the first and second 3D vectors
 
-	Graphics::DrawRect({ minONE.x, minONE.y }, { 50, 50 }, { 85, 107, 47, 200 });
-	maxONE.x = minONE.x + 50;
-	maxONE.y = minONE.y + 50;
-	Graphics::DrawRect({ minA, minB }, { 50, 50 }, { 112, 41, 99, 200 });
-	maxA = minA + 50;
-	maxB = minB + 50;
-	int x = minONE.x + 25;
-	int y = minONE.y + 25;
+	Graphics::DrawRect({ p0.x, p0.y }, { 50, 50 }, { 85, 107, 47, 200 });
+	p1.x = p0.x + 50;
+	p1.y = p0.y;
+	p2.x = p0.x;
+	p2.y = p0.y + 50;
+	p3.x = p0.x + 50;
+	p3.y = p0.y + 50;
+	Graphics::DrawRect({ q0.x, q0.y }, { 50, 50 }, { 112, 41, 99, 200 });
+	q1.x = q0.x + 50;
+	q1.y = q0.y;
+	q2.x = q0.x;
+	q2.y = q0.y + 50;
+	q3.x = q0.x + 50;
+	q3.y = q0.y + 50;
+	int x = p0.x + 25;
+	int y = p0.y + 25;
+	Graphics::DrawRect({ g0.x, g0.y }, { 50, 50 }, { 178, 255, 255, 200 });
 	Graphics::DrawCircle({ x, y }, size, sides, { R, G, B, density });
 }
 

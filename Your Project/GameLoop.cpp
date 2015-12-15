@@ -307,23 +307,23 @@ void GameLoop::Draw()
 	//Graphics::DrawRect({ 0, 0 }, { 1600, 900 }, { RGBA4D.x, RGBA4D.y, RGBA4D.z, RGBA4D.w });
 	//Graphics::DrawRect({ 410, 0 }, { 400, 900 }, { 160, 65, 255, 255 });
 	//Graphics::DrawRect({ 250, 500 }, { 1000, 200 }, { 0, 255, 0, 255 });
-	Vector<float> Vec1 = { 300, 0};
-	Vector<float> Vec2 = { 0, 400};
-	double percentage = 0.0;
-	for (int i = 0; i < 96; i++)
-	{
-		Vector<float> Vec3;
-		Vec3.x = 5 + Vec3.Interpolation(Vec1.x, Vec2.x, percentage);
-		Vec3.y = 5 + Vec3.Interpolation(Vec1.y, Vec2.y, percentage);
-		//Graphics::DrawLine({ Vec3.x, 10 }, { 10, Vec3.x }, { 255, 255, 255, 255 });
-		Graphics::DrawLine({ Vec3.x - 5, 10 }, { 10, Vec3.x - 5 }, { 255, 255, 255, 255 });
-		percentage += 0.01;
-	}
-	
-	Graphics::DrawLine({ 10, 10 }, { 10, Vec2.y }, { 255, 255, 255, 255 });
-	Graphics::DrawLine({ 10, 10 }, { Vec1.x, 10 }, { 255, 255, 255, 255 });
-	
-	Graphics::DrawPoint({ 10, 10 }, { 255, 0, 0, 255 });
+	//Vector<float> Vec1 = { 300, 0};
+	//Vector<float> Vec2 = { 0, 400};
+	//double percentage = 0.0;
+	//for (int i = 0; i < 96; i++)
+	//{
+	//	Vector<float> Vec3;
+	//	Vec3.x = 5 + Vec3.Interpolation(Vec1.x, Vec2.x, percentage);
+	//	Vec3.y = 5 + Vec3.Interpolation(Vec1.y, Vec2.y, percentage);
+	//	//Graphics::DrawLine({ Vec3.x, 10 }, { 10, Vec3.x }, { 255, 255, 255, 255 });
+	//	Graphics::DrawLine({ Vec3.x - 5, 10 }, { 10, Vec3.x - 5 }, { 255, 255, 255, 255 });
+	//	percentage += 0.01;
+	//}
+	//
+	//Graphics::DrawLine({ 10, 10 }, { 10, Vec2.y }, { 255, 255, 255, 255 });
+	//Graphics::DrawLine({ 10, 10 }, { Vec1.x, 10 }, { 255, 255, 255, 255 });
+	//
+	//Graphics::DrawPoint({ 10, 10 }, { 255, 0, 0, 255 });
 
 	//Graphics::DrawRing({ 10, 10 }, 50, 25, { 255, 0, 0, 255 });
 	//Graphics::DrawCircle({ x, y }, size, sides, { R, G, B, density });
